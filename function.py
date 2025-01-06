@@ -29,15 +29,25 @@ def draw_styled_landmarks(image, results):
 
 
 def extract_keypoints(results):
+    lh = np.zeros(21*3)
+    rh = np.zeros(21*3)
+    
     if results.multi_hand_landmarks:
-      for hand_landmarks in results.multi_hand_landmarks:
-        rh = np.array([[res.x, res.y, res.z] for res in hand_landmarks.landmark]).flatten() if hand_landmarks else np.zeros(21*3)
-        return(np.concatenate([rh]))
+        for i, hand_landmarks in enumerate(results.multi_hand_landmarks):
+            handedness = results.multi_handedness[i].classification[0].label
+            hand_array = np.array([[res.x, res.y, res.z] for res in hand_landmarks.landmark]).flatten()
+            
+            if handedness == 'Left':
+                lh = hand_array
+            elif handedness == 'Right':
+                rh = hand_array
+                
+    return np.concatenate([lh, rh])
 # Path for exported data, numpy arrays
 DATA_PATH = os.path.join('MP_Data') 
 
-actions = np.array(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])
-
+# actions = np.array(['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'])
+actions = np.array(['A','B','C','D'])
 no_sequences = 30
 
 sequence_length = 30

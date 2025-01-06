@@ -26,7 +26,7 @@ with mp_hands.Hands(
 
                 # Read feed
                 # ret, frame = cap.read()
-                frame=cv2.imread('Image/{}/{}.png'.format(action,sequence))
+                frame=cv2.imread('image/{}/{}.png'.format(action,sequence))
                 # frame=cv2.imread('{}{}.png'.format(action,sequence))
                 # frame=cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
 
